@@ -11,7 +11,8 @@
 (package-initialize)
 
 ;; LOAD CUSTOM FILE
-(load-file "~/.emacs.d/.authinfo")
+(when (file-exists-p "~/.emacs.d/.authinfo")
+       (load-file "~/.emacs.d/.authinfo"))
 ;;; --- UI --- ;;;
 (menu-bar-mode -1) ;; Oculta la barra del menú
 (scroll-bar-mode -1) ;; Oculta la barra de desplazamiento
@@ -221,7 +222,8 @@
 ;; Makes the dashboard buffer the default for when you use the emacs daemon
 (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 ;; GPTEL
-(use-package gptel 
+(use-package gptel
+  :if (file-exists-p "~/.emacs.d/.authinfo")
   :ensure t
   :config
   (setq gptel-model 'llama3-70b-8192
@@ -246,9 +248,8 @@
             pplx-70b-chat
             pplx-7b-online
             pplx-70b-online
-	    llama-3.1-sonar-large-128k-chat
-	    llama-3.1-sonar-large-128k-online))
-  (add-to-list 'gptel-directives '(english . "I'm an expert English language interpreter with experience in translation and interpretation. I'm here to help you better understand the English phrases you'd like to analyze. My function is to explain the meaning, grammar, and context of each phrase you provide in a clear and concise manner. You can give me any English phrase or text, and I'll be happy to help you uncover its deeper and more precise meaning") t)
+	    llama-3.1-sonar-small-128k-online))
+  (add-to-list 'gptel-directives '(english . "I'm an expert English language interpreter with experience in translation and interpretation. I'm here to help you better understand the English words and phrases you'd like to analyze. My function is to explain the meaning of each word or phrase you provide in a clear and concise manner. I'll only generate short texts to the answer") t)
   (setq gptel-default-mode 'org-mode))
 ;;org-bullets
 (use-package org-bullets
@@ -268,7 +269,7 @@
  '(custom-safe-themes
    '("88f7ee5594021c60a4a6a1c275614103de8c1435d6d08cc58882f920e0cec65e" default))
  '(package-selected-packages
-   '(gptel vterm which-key gemini-mode elpher pdf-tools dashboard elfeed doom-themes)))
+   '(## gptel vterm which-key gemini-mode elpher pdf-tools dashboard elfeed doom-themes)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
